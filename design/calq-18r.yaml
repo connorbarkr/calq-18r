@@ -1,0 +1,202 @@
+units:
+  screen_height: 55.88
+  screen_width: 63.5
+  feather_height: 50.8
+  feather_width: 22.86
+  total_width: 86.36
+  padding: 1
+points:
+  zones:
+    main:
+      rows:
+        e:
+          row_net: A4
+        d:
+          row_net: A3
+        c:
+          row_net: A2
+        b:
+          row_net: A1
+        a:
+          row_net: A0
+      columns:
+        A:
+          key:
+            column_net: D9
+          rows:
+            a:
+              diode_net: d_A_a
+            b:
+              diode_net: d_A_b
+            c:
+              diode_net: d_A_c
+            d:
+              diode_net: d_A_d
+            e:
+              diode_net: d_A_e
+        B:
+          key:
+            column_net: D10
+          rows:
+            a:
+              diode_net: d_B_a
+            b:
+              diode_net: d_B_b
+            c:
+              diode_net: d_B_c
+            d:
+              diode_net: d_B_d
+            e:
+              diode_net: d_B_e
+        C:
+          key:
+            column_net: D11
+          rows:
+            a:
+              diode_net: d_C_a
+            b:
+              diode_net: d_C_b
+            c:
+              diode_net: d_C_c
+            d:
+              diode_net: d_C_d
+            e:
+              diode_net: d_C_e
+        D:
+          key:
+            column_net: D12
+          rows:
+            a:
+              diode_net: d_D_a
+            b:
+              rotate: 90
+              shift: [0, -0.5u]
+              footprints.mx.params.keycaps: false
+              diode_net: d_D_b
+            c:
+              skip: true
+            d:
+              rotate: 90
+              shift: [0, -0.5u]
+              footprints.mx.params.keycaps: false
+              diode_net: d_D_d
+            e.skip: true
+  key:
+    footprints:
+      mx:
+        type: mx
+        nets:
+          from: =diode_net
+          to: =column_net
+        params.keycaps: true
+      diode:
+        type: diode
+        anchor:
+          shift: [0, -4.7]
+        nets:
+          from: =diode_net
+          to: =row_net
+outlines:
+  exports:
+    _raw:
+      - type: rectangle
+        size: [total_width + 2*padding, 5u + screen_height + 2*padding - (4u - total_width)/2]
+        anchor:
+          ref: main_A_e
+          shift: [(3u - total_width)/2 - padding, (3u - total_width)/2 - padding]
+    _switches:
+      - type: rectangle
+        size: [total_width + 2*padding, u + 2*padding + total_width]
+        anchor:
+          ref: main_A_e
+          shift: [(3u - total_width)/2 - padding, (3u - total_width)/2 - padding]
+    _switch_cutouts:
+      - type: keys
+        side: left
+        size: 14
+        bound: false
+    cutout:
+      - type: outline
+        name: _raw
+        fillet: 3
+    switch_plate:
+      main:
+        type: outline
+        name: _switches
+      keyholes:
+        type: outline
+        name: _switch_cutouts
+        operation: subtract
+      mnt1:
+        type: circle
+        radius: 2.54
+        anchor:
+          ref: main_A_e
+          shift: [-0.5u - 3.04, -0.5u - 3.04]
+        operation: subtract
+      mnt2:
+        type: circle
+        radius: 2.54
+        anchor:
+          ref: main_A_a
+          shift: [-0.5u - 3.04, 0.5u + 3.04]
+        operation: subtract
+      mnt3:
+        type: circle
+        radius: 2.54
+        anchor:
+          ref: main_D_a
+          shift: [0.5u + 3.04, 0.5u + 3.04]
+        operation: subtract
+      mnt4:
+        type: circle
+        radius: 2.54
+        anchor:
+          ref: main_C_e
+          shift: [1.5u + 3.04, -0.5u - 3.04]
+        operation: subtract
+pcbs:
+  calq-18r:
+    outlines:  
+      board:
+        outline: cutout
+    footprints:
+      feather:
+        type: feather
+        params.mounting: true
+        anchor:
+          ref: main_A_a
+          shift: [(3u - screen_width)/2 - padding, padding + screen_height + (u - feather_height)/2]
+          rotate: -90
+      display:
+        type: sharp_27
+        anchor:
+          ref: main_D_a
+          shift: [(feather_width - 3u)/2 + padding, (u + screen_height)/2 + padding]
+      stab1:
+        type: mx_stabilizer
+        params:
+          keycaps: true
+        anchor:
+          ref: main_D_b
+      stab2:
+        type: mx_stabilizer
+        params:
+          keycaps: true
+        anchor:
+          ref: main_D_d
+      mnt1:
+        type: mount
+        anchor:
+          ref: main_A_a
+          shift: [-0.5u - 3.54, 0.5u + 3.54]
+      mnt2:
+        type: mount
+        anchor:
+          ref: main_A_e
+          shift: [-0.5u - 3.54, -0.5u - 3.54]
+      mnt3:
+        type: mount
+        anchor:
+          ref: main_C_e
+          shift: [1.5u + 3.54, -0.5u - 3.54]
